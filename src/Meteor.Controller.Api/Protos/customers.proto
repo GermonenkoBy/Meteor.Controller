@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "Meteor.Controller.Api.Grpc";
+
+package meteor.customers;
+
+enum CUSTOMER_STATUS {
+  CUSTOMER_STATUS_NEW = 0;
+  CUSTOMER_STATUS_ACTIVE = 1;
+  CUSTOMER_STATUS_SUSPENDED = 2;
+  CUSTOMER_STATUS_TERMINATED = 3;
+}
+
+message Customer {
+  int32 id = 1;
+  string name = 2;
+  string domain = 3;
+  CUSTOMER_STATUS status = 4;
+  google.protobuf.Timestamp created = 5;
+}
+
+message CustomerSettings {
+  int32 customer_id = 1;
+  string core_connection_string = 2;
+}
+
+message GetCustomerByIdRequest {
+  int32 customer_id = 1;
+}
+
+message GetCustomerRequest {
+  string domain = 1;
+}
+
+message SetCustomerSettingsRequest {
+  int32 customer_id = 1;
+  optional string core_connection_string = 2;
+}
+
+service CustomersService {
+  rpc GetCustomer(GetCustomerRequest) returns (Customer);
+  rpc GetCustomerSettings(GetCustomerByIdRequest) returns (CustomerSettings);
+  rpc SetCustomerSettings(SetCustomerSettingsRequest) returns (CustomerSettings);
+}
