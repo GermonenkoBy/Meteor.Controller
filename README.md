@@ -2,6 +2,10 @@
 
 This service responsible for managing customers.
 
+## Image Build
+
+TODO: Add build steps
+
 ## Migrations
 
 To add migration run the following command:
