@@ -10,6 +10,6 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
     {
         builder.HasOne(c => c.Settings)
             .WithOne()
-            .HasForeignKey(CustomerIdFieldName);
+            .HasForeignKey<CustomerSettings>(CustomerIdFieldName);
     }
 }

@@ -9,5 +9,8 @@ public class ContactPersonEntityTypeConfiguration : IEntityTypeConfiguration<Con
         builder.HasOne<Customer>()
             .WithMany()
             .HasForeignKey(cp => cp.CustomerId);
+
+        builder.HasIndex(cp => new { cp.CustomerId, cp.EmailAddress })
+            .IsUnique();
     }
 }

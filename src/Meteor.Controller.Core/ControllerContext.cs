@@ -17,5 +17,6 @@ public class ControllerContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new ContactPersonEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new CustomerSettingsEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new CustomerEntityTypeConfiguration());
     }
 }
