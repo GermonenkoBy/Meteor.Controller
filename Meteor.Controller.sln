@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meteor.Controller.Migration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meteor.Controller.Core.Tests", "tests\Meteor.Controller.Core.Tests\Meteor.Controller.Core.Tests.csproj", "{2B136EB3-AB6D-4878-AAEE-505922515CDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meteor.Controller.Api.Tests", "tests\Meteor.Controller.Api.Tests\Meteor.Controller.Api.Tests.csproj", "{98930126-DAF2-4489-ABD6-81D9F13D66AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,7 @@ Global
 		{D582D2F3-743A-4B63-8CE3-2E00C491618F} = {B088B60B-118B-4A10-83DA-51E63F7E4DF2}
 		{04060D8A-DEA0-47EA-8656-A00E7ABAB39B} = {B088B60B-118B-4A10-83DA-51E63F7E4DF2}
 		{2B136EB3-AB6D-4878-AAEE-505922515CDF} = {DE8612FA-68E0-425E-980B-AC72F3EF9C4D}
+		{98930126-DAF2-4489-ABD6-81D9F13D66AC} = {DE8612FA-68E0-425E-980B-AC72F3EF9C4D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{41A228BF-A533-45B5-B390-B2FD10FF7183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -40,5 +43,9 @@ Global
 		{2B136EB3-AB6D-4878-AAEE-505922515CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B136EB3-AB6D-4878-AAEE-505922515CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B136EB3-AB6D-4878-AAEE-505922515CDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98930126-DAF2-4489-ABD6-81D9F13D66AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98930126-DAF2-4489-ABD6-81D9F13D66AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98930126-DAF2-4489-ABD6-81D9F13D66AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98930126-DAF2-4489-ABD6-81D9F13D66AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

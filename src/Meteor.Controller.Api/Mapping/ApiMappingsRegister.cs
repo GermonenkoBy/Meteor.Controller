@@ -13,7 +13,11 @@ public class ApiMappingsRegister : IRegister
             .Map(c => c.Created, c => Timestamp.FromDateTimeOffset(c.Created));
 
         config.ForType<Grpc.SetCustomerSettingsRequest, SetCustomerSettingsDto>()
-            .Map(dto => dto.CoreConnectionString, req => req.CoreConnectionString, req => req.HasCoreConnectionString);
+            .IgnoreIf(
+                (settings, dto) => settings.HasCoreConnectionString,
+                dto => dto.CoreConnectionString!
+            )
+            .Map(dto => dto.CoreConnectionString, req => req.CoreConnectionString);
 
         config.ForType<CustomerSettings, Grpc.CustomerSettings>()
             .Map(cs => cs.CoreConnectionString, cs => cs.CoreDatabaseConnectionString);

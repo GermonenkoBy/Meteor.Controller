@@ -9,10 +9,10 @@ public class CoreMappingsRegister : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.ForType<SetCustomerSettingsDto, CustomerSettings>()
-            .Map(
-                cs => cs.CoreDatabaseConnectionString,
-                dto => dto.CoreConnectionString,
-                dto => dto.CoreConnectionString != null
-            );
+            .IgnoreIf(
+                (dto, settings) => dto.CoreConnectionString == null, 
+                settings => settings.CoreDatabaseConnectionString
+            )
+            .Map(cs => cs.CoreDatabaseConnectionString, dto => dto.CoreConnectionString);
     }
 }
