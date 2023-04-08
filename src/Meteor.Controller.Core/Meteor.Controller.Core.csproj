@@ -12,8 +12,12 @@
     </ItemGroup>
     
     <ItemGroup>
+      <PackageReference Include="Mapster" Version="7.3.0" />
+      <PackageReference Include="Meteor.Common.Core" Version="1.0.0" />
+      <PackageReference Include="Meteor.Common.Cryptography.Abstractions" Version="1.0.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.4" />
+      <PackageReference Include="Microsoft.FeatureManagement" Version="2.5.1" />
     </ItemGroup>
 
 </Project>

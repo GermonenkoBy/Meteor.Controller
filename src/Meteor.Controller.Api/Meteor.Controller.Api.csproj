@@ -15,11 +15,15 @@
     <ItemGroup>
         <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.52.0" />
+        <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.52.0" />
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="Meteor.Common.Cryptography.DependencyInjection" Version="1.0.0" />
         <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="6.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.5.1" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
     </ItemGroup>
 
@@ -32,6 +36,15 @@
     <ItemGroup>
       <ProjectReference Include="..\Meteor.Controller.Core\Meteor.Controller.Core.csproj" />
       <ProjectReference Include="..\Meteor.Controller.Migrations\Meteor.Controller.Migrations.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Meteor.Common.Cryptography">
+        <HintPath>..\..\..\..\..\Users\SlavaGermonenko\.nuget\packages\meteor.common.cryptography\1.0.0\lib\net7.0\Meteor.Common.Cryptography.dll</HintPath>
+      </Reference>
+      <Reference Include="Meteor.Common.Cryptography.DependencyInjection">
+        <HintPath>..\..\..\..\..\Users\SlavaGermonenko\.nuget\packages\meteor.common.cryptography.dependencyinjection\1.0.0\lib\net7.0\Meteor.Common.Cryptography.DependencyInjection.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>

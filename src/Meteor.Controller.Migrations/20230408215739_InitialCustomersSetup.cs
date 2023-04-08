@@ -1,11 +1,11 @@
-﻿#nullable disable
-
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+
+#nullable disable
 
 namespace Meteor.Controller.Migrations;
 
-public partial class ControllerInitialSetup : Migration
+public partial class InitialCustomersSetup : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
@@ -22,7 +22,7 @@ public partial class ControllerInitialSetup : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk__customers", x => x.id);
+                table.PrimaryKey("pk_customers", x => x.id);
             });
 
         migrationBuilder.CreateTable(
@@ -39,7 +39,7 @@ public partial class ControllerInitialSetup : Migration
             {
                 table.PrimaryKey("pk_contact_persons", x => x.id);
                 table.ForeignKey(
-                    name: "fk__customers_contact_persons",
+                    name: "fk_contact_persons_customers_customer_id",
                     column: x => x.customer_id,
                     principalTable: "customers",
                     principalColumn: "id",
@@ -51,26 +51,48 @@ public partial class ControllerInitialSetup : Migration
             columns: table => new
             {
                 customer_id = table.Column<int>(type: "integer", nullable: false),
-                core_database_connection_string = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false)
+                core_database_connection_string = table.Column<string>(type: "character varying(400)", maxLength: 400, nullable: false),
+                encrypted = table.Column<bool>(type: "boolean", nullable: false)
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk__customer_settings", x => x.customer_id);
+                table.PrimaryKey("pk_customer_settings", x => x.customer_id);
                 table.ForeignKey(
-                    name: "fk__customers_customer_settings",
+                    name: "fk_customer_settings_customers_customer_id",
                     column: x => x.customer_id,
                     principalTable: "customers",
                     principalColumn: "id",
                     onDelete: ReferentialAction.Cascade);
             });
+
+        migrationBuilder.CreateIndex(
+            name: "ix_contact_persons_customer_id_email_address",
+            table: "contact_persons",
+            columns: new[] { "customer_id", "email_address" },
+            unique: true);
+
+        migrationBuilder.CreateIndex(
+            name: "ix_customers_domain",
+            table: "customers",
+            column: "domain",
+            unique: true);
+
+        migrationBuilder.CreateIndex(
+            name: "ix_customers_name",
+            table: "customers",
+            column: "name",
+            unique: true);
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)
     {
-        migrationBuilder.DropTable("contact_persons");
+        migrationBuilder.DropTable(
+            name: "contact_persons");
 
-        migrationBuilder.DropTable("customer_settings");
+        migrationBuilder.DropTable(
+            name: "customer_settings");
 
-        migrationBuilder.DropTable("customers");
+        migrationBuilder.DropTable(
+            name: "customers");
     }
 }

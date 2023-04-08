@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Meteor.Controller.Migrations.Migrations
+namespace Meteor.Controller.Migrations
 {
     [DbContext(typeof(ControllerContext))]
     partial class ControllerContextModelSnapshot : ModelSnapshot
@@ -50,8 +50,9 @@ namespace Meteor.Controller.Migrations.Migrations
                     b.HasKey("Id")
                         .HasName("pk_contact_persons");
 
-                    b.HasIndex("CustomerId")
-                        .HasDatabaseName("ix_contact_persons_customer_id");
+                    b.HasIndex("CustomerId", "EmailAddress")
+                        .IsUnique()
+                        .HasDatabaseName("ix_contact_persons_customer_id_email_address");
 
                     b.ToTable("contact_persons", (string)null);
                 });
@@ -87,6 +88,14 @@ namespace Meteor.Controller.Migrations.Migrations
                     b.HasKey("Id")
                         .HasName("pk_customers");
 
+                    b.HasIndex("Domain")
+                        .IsUnique()
+                        .HasDatabaseName("ix_customers_domain");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_customers_name");
+
                     b.ToTable("customers", (string)null);
                 });
 
@@ -101,6 +110,10 @@ namespace Meteor.Controller.Migrations.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("character varying(400)")
                         .HasColumnName("core_database_connection_string");
+
+                    b.Property<bool>("Encrypted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("encrypted");
 
                     b.HasKey("CustomerId")
                         .HasName("pk_customer_settings");
