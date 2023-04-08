@@ -88,6 +88,14 @@ namespace Meteor.Controller.Migrations
                     b.HasKey("Id")
                         .HasName("pk_customers");
 
+                    b.HasIndex("Domain")
+                        .IsUnique()
+                        .HasDatabaseName("ix_customers_domain");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_customers_name");
+
                     b.ToTable("customers", (string)null);
                 });
 

@@ -11,5 +11,8 @@ public class CustomerEntityTypeConfiguration : IEntityTypeConfiguration<Customer
         builder.HasOne(c => c.Settings)
             .WithOne()
             .HasForeignKey<CustomerSettings>(CustomerIdFieldName);
+
+        builder.HasIndex(c => c.Name).IsUnique();
+        builder.HasIndex(c => c.Domain).IsUnique();
     }
 }

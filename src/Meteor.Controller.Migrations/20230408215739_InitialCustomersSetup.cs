@@ -5,10 +5,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Meteor.Controller.Migrations;
 
-/// <inheritdoc />
-public partial class CustomersInitialSetup : Migration
+public partial class InitialCustomersSetup : Migration
 {
-    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
@@ -24,7 +22,7 @@ public partial class CustomersInitialSetup : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk__customers", x => x.id);
+                table.PrimaryKey("pk_customers", x => x.id);
             });
 
         migrationBuilder.CreateTable(
@@ -39,9 +37,9 @@ public partial class CustomersInitialSetup : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk__contact_persons", x => x.id);
+                table.PrimaryKey("pk_contact_persons", x => x.id);
                 table.ForeignKey(
-                    name: "fk__customers__contact_persons",
+                    name: "fk_contact_persons_customers_customer_id",
                     column: x => x.customer_id,
                     principalTable: "customers",
                     principalColumn: "id",
@@ -58,9 +56,9 @@ public partial class CustomersInitialSetup : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk__customer_settings", x => x.customer_id);
+                table.PrimaryKey("pk_customer_settings", x => x.customer_id);
                 table.ForeignKey(
-                    name: "fk__customers__customer_settings",
+                    name: "fk_customer_settings_customers_customer_id",
                     column: x => x.customer_id,
                     principalTable: "customers",
                     principalColumn: "id",
@@ -68,13 +66,24 @@ public partial class CustomersInitialSetup : Migration
             });
 
         migrationBuilder.CreateIndex(
-            name: "uix__contact_persons__customer_id__email_address",
+            name: "ix_contact_persons_customer_id_email_address",
             table: "contact_persons",
             columns: new[] { "customer_id", "email_address" },
             unique: true);
+
+        migrationBuilder.CreateIndex(
+            name: "ix_customers_domain",
+            table: "customers",
+            column: "domain",
+            unique: true);
+
+        migrationBuilder.CreateIndex(
+            name: "ix_customers_name",
+            table: "customers",
+            column: "name",
+            unique: true);
     }
 
-    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(

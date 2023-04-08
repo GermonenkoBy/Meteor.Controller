@@ -1,6 +1,7 @@
 ﻿using MapsterMapper;
 using Meteor.Common.Core.Exceptions;
 using Meteor.Common.Cryptography.Abstractions;
+using Meteor.Controller.Core.Constants;
 using Meteor.Controller.Core.Dtos;
 using Meteor.Controller.Core.Models;
 using Meteor.Controller.Core.Services.Contracts;
@@ -83,7 +84,9 @@ public class CustomersService : ICustomersService
         customer.Settings ??= new();
         _mapper.Map(settings, customer.Settings);
 
-        var encryptionEnabled = await _featureManager.IsEnabledAsync("CustomerSettingsSensitiveDataEncryption");
+        var encryptionEnabled = await _featureManager
+            .IsEnabledAsync(FeatureFlags.CustomerSettingsSensitiveDataEncryption);
+        
         if (encryptionEnabled)
         {
             await EncryptSensitiveData(customer.Settings);
