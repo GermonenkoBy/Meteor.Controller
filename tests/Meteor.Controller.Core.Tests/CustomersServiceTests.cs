@@ -124,7 +124,7 @@ public class CustomersServiceTests
     {
         await CustomersService.SetCustomerSettings(-1, new());
     }
-    
+
     [TestMethod]
     public async Task SetCustomerSettings_Should_EncryptSensitiveData()
     {
@@ -145,7 +145,7 @@ public class CustomersServiceTests
         };
 
         var encryptedConnectionString = RandomNumberGenerator.GetBytes(4);
-        
+
         FeatureManagerMock
             .Setup(fm => fm.IsEnabledAsync(FeatureFlags.CustomerSettingsSensitiveDataEncryption))
             .ReturnsAsync(true);
@@ -167,7 +167,7 @@ public class CustomersServiceTests
             .Where(c => c.Id == customerId)
             .Select(c => c.Settings)
             .FirstOrDefaultAsync();
-        
+
         Assert.IsNotNull(storedSettings);
         Assert.IsTrue(storedSettings.Encrypted);
         Assert.AreEqual(Convert.ToBase64String(encryptedConnectionString), storedSettings.CoreDatabaseConnectionString);
@@ -205,9 +205,38 @@ public class CustomersServiceTests
             .Where(c => c.Id == customerId)
             .Select(c => c.Settings)
             .FirstOrDefaultAsync();
-        
+
         Assert.IsNotNull(storedSettings);
         Assert.IsFalse(storedSettings.Encrypted);
         Assert.AreEqual(storedSettings.CoreDatabaseConnectionString, storedSettings.CoreDatabaseConnectionString);
+    }
+
+    [TestMethod]
+    public async Task GetCustomersPage_Should_ReturnCorrectlyFilteredCustomers()
+    {
+        var filter = new CustomersFilter
+        {
+            Statuses =
+            {
+                CustomerStatuses.Active,
+            },
+            Paging =
+            {
+                Limit = 1,
+                Offset = 0
+            }
+        };
+
+        var customersPage = await CustomersService.GetCustomersAsync(filter);
+
+        var expectedCount = await ControllerContext.Customers.CountAsync(c => c.Status == CustomerStatuses.Active);
+        var expectedCustomer = await ControllerContext.Customers
+            .AsNoTracking()
+            .OrderBy(c => c.Name)
+            .FirstAsync(c => c.Status == CustomerStatuses.Active);
+
+        Assert.AreEqual(expectedCount, customersPage.Total);
+        Assert.AreEqual(filter.Paging.Limit, customersPage.Items.Count);
+        Assert.AreEqual(expectedCustomer.Id, expectedCustomer.Id);
     }
 }
