@@ -1,5 +1,6 @@
 ﻿using MapsterMapper;
 using Meteor.Common.Core.Exceptions;
+using Meteor.Common.Core.Models;
 using Meteor.Common.Cryptography.Abstractions;
 using Meteor.Controller.Core.Constants;
 using Meteor.Controller.Core.Dtos;
@@ -46,6 +47,25 @@ public class CustomersService : ICustomersService
         return customer;
     }
 
+    public async Task<PagedResult<Customer>> GetCustomersAsync(CustomersFilter filter)
+    {
+        var query = _context.Customers
+            .AsNoTracking();
+
+        if (filter.Statuses.Any())
+        {
+            query = query.Where(c => filter.Statuses.Contains(c.Status));
+        }
+
+        var total = await query.CountAsync();
+        var customers = await query.OrderBy(c => c.Name)
+            .Skip(filter.Paging.Offset)
+            .Take(filter.Paging.Limit)
+            .ToListAsync();
+
+        return new(customers, total);
+    }
+
     public async Task<CustomerSettings> GetCustomerSettings(int customerId)
     {
         var customer = await _context.Customers
@@ -86,7 +106,7 @@ public class CustomersService : ICustomersService
 
         var encryptionEnabled = await _featureManager
             .IsEnabledAsync(FeatureFlags.CustomerSettingsSensitiveDataEncryption);
-        
+
         if (encryptionEnabled)
         {
             await EncryptSensitiveData(customer.Settings);

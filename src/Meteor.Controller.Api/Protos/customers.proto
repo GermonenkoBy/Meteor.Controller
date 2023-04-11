@@ -21,6 +21,11 @@ message Customer {
   google.protobuf.Timestamp created = 5;
 }
 
+message CustomersPage {
+  repeated Customer customers = 1;
+  int32 total = 2;
+}
+
 message CustomerSettings {
   int32 customer_id = 1;
   string core_connection_string = 2;
@@ -34,6 +39,12 @@ message GetCustomerRequest {
   string domain = 1;
 }
 
+message GetCustomersPageRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+  repeated CUSTOMER_STATUS statuses = 3;
+}
+
 message SetCustomerSettingsRequest {
   int32 customer_id = 1;
   optional string core_connection_string = 2;
@@ -41,6 +52,7 @@ message SetCustomerSettingsRequest {
 
 service CustomersService {
   rpc GetCustomer(GetCustomerRequest) returns (Customer);
+  rpc GetCustomers(GetCustomersPageRequest) returns (CustomersPage);
   rpc GetCustomerSettings(GetCustomerByIdRequest) returns (CustomerSettings);
   rpc SetCustomerSettings(SetCustomerSettingsRequest) returns (CustomerSettings);
 }

@@ -3,6 +3,7 @@ using Mapster;
 using MapsterMapper;
 using Meteor.Controller.Api.Grpc;
 using Meteor.Controller.Api.Mapping;
+using Meteor.Controller.Core.Dtos;
 using Meteor.Controller.Core.Models.Enums;
 
 namespace Meteor.Controller.Api.Tests;
@@ -40,5 +41,28 @@ public class ApiMappingsTests
         Assert.AreEqual(customer.Domain, grpcCustomer.Domain);
         Assert.AreEqual(CUSTOMER_STATUS.Active, grpcCustomer.Status);
         Assert.AreEqual(createdTimestamp, grpcCustomer.Created);
+    }
+
+    [TestMethod]
+    public void MapGetCustomersPageRequestToCustomersFilter_Should_MapAllFields()
+    {
+        var customersRequest = new GetCustomersPageRequest
+        {
+            Offset = 25,
+            Limit = 100,
+            Statuses =
+            {
+                CUSTOMER_STATUS.Active,
+                CUSTOMER_STATUS.Suspended,
+            }
+        };
+
+        var filter = _mapper.Map<CustomersFilter>(customersRequest);
+
+        Assert.AreEqual(customersRequest.Limit, filter.Paging.Limit);
+        Assert.AreEqual(customersRequest.Offset, filter.Paging.Offset);
+        Assert.AreEqual(2, filter.Statuses.Count);
+        Assert.IsTrue(filter.Statuses.Any(s => s == CustomerStatuses.Active));
+        Assert.IsTrue(filter.Statuses.Any(s => s == CustomerStatuses.Suspended));
     }
 }

@@ -1,4 +1,5 @@
 using Grpc.Core;
+using Mapster;
 using MapsterMapper;
 using Meteor.Controller.Api.Grpc;
 using Meteor.Controller.Core.Dtos;
@@ -25,6 +26,23 @@ public class CustomersGrpcService : CustomersService.CustomersServiceBase
     {
         var customer = await _customersService.GetCustomerAsync(request.Domain);
         return _mapper.Map<Customer>(customer);
+    }
+
+    public override async Task<CustomersPage> GetCustomers(
+        GetCustomersPageRequest request,
+        ServerCallContext context
+    )
+    {
+        var filter = _mapper.Map<CustomersFilter>(request);
+        var customersPage = await _customersService.GetCustomersAsync(filter);
+        return new()
+        {
+            Total = customersPage.Total,
+            Customers =
+            {
+                _mapper.Map<List<Customer>>(customersPage.Items)
+            }
+        };
     }
 
     public override async Task<CustomerSettings> GetCustomerSettings(
