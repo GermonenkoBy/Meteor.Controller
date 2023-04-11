@@ -2,6 +2,7 @@ using Mapster;
 using MapsterMapper;
 using Meteor.Common.Cryptography.DependencyInjection.Extensions;
 using Meteor.Controller.Api.Extensions;
+using Meteor.Controller.Api.Interceptors;
 using Meteor.Controller.Api.Mapping;
 using Meteor.Controller.Api.Services;
 using Meteor.Controller.Core;
@@ -52,7 +53,7 @@ config.Apply(new ApiMappingsRegister());
 config.Apply(new CoreMappingsRegister());
 builder.Services.AddSingleton<IMapper>(new Mapper(config));
 
-builder.Services.AddGrpc();
+builder.Services.AddGrpc(options => options.Interceptors.Add<ExceptionHandlingInterceptor>());
 builder.Services.AddGrpcReflection();
 
 builder.Services.AddScoped<ICustomersService, CustomersService>();
