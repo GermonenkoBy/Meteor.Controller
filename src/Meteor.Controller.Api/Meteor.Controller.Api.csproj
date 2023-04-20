@@ -35,6 +35,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Meteor.Controller.Core\Meteor.Controller.Core.csproj" />
+      <ProjectReference Include="..\Meteor.Controller.Infrastructure\Meteor.Controller.Infrastructure.csproj" />
       <ProjectReference Include="..\Meteor.Controller.Migrations\Meteor.Controller.Migrations.csproj" />
     </ItemGroup>
 
