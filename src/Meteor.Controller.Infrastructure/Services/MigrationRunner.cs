@@ -23,7 +23,7 @@ public class MigrationRunner : IMigrationRunner
         try
         {
             await _context.Database.MigrateAsync(cancellationToken);
-            _logger.LogInformation("Migrations successfully applied");
+            _logger.LogInformation("Migrations were applied successfully");
         }
         catch (Exception e)
         {
