@@ -1,7 +1,12 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+
+EXPOSE 3000
+EXPOSE 3001
+ENV ASPNETCORE_URLS="http://+:3000;http://+:3001"
+
+RUN apt-get -y update; apt-get -y install curl
+
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG NUGET_USER
