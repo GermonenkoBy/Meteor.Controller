@@ -35,7 +35,7 @@ message GetCustomerByIdRequest {
   int32 customer_id = 1;
 }
 
-message GetCustomerRequest {
+message GetCustomerByDomainRequest {
   string domain = 1;
 }
 
@@ -51,7 +51,8 @@ message SetCustomerSettingsRequest {
 }
 
 service CustomersService {
-  rpc GetCustomer(GetCustomerRequest) returns (Customer);
+  rpc GetCustomerByDomain(GetCustomerByDomainRequest) returns (Customer);
+  rpc GetCustomerById(GetCustomerByIdRequest) returns (Customer);
   rpc GetCustomers(GetCustomersPageRequest) returns (CustomersPage);
   rpc GetCustomerSettings(GetCustomerByIdRequest) returns (CustomerSettings);
   rpc SetCustomerSettings(SetCustomerSettingsRequest) returns (CustomerSettings);

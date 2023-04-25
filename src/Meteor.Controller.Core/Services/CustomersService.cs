@@ -33,6 +33,20 @@ public class CustomersService : ICustomersService
         _featureManager = featureManager;
     }
 
+    public async Task<Customer> GetCustomerAsync(int customerId)
+    {
+        var customer = await _context.Customers
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Id == customerId);
+
+        if (customer is null)
+        {
+            throw new MeteorNotFoundException("Customer not found.");
+        }
+
+        return customer;
+    }
+
     public async Task<Customer> GetCustomerAsync(string domain)
     {
         var customer = await _context.Customers
