@@ -135,6 +135,19 @@ public class CustomersService : ICustomersService
     {
         var encryptedCoreConnectionString = await _encryptor.EncryptAsync(settings.CoreDatabaseConnectionString);
         settings.CoreDatabaseConnectionString = Convert.ToBase64String(encryptedCoreConnectionString);
+
+        if (!string.IsNullOrEmpty(settings.FullTextSearchUrl))
+        {
+            var bytes = await _encryptor.EncryptAsync(settings.FullTextSearchUrl);
+            settings.FullTextSearchUrl = Convert.ToBase64String(bytes);
+        }
+
+        if (!string.IsNullOrEmpty(settings.FullTextSearchApiKey))
+        {
+            var bytes = await _encryptor.EncryptAsync(settings.FullTextSearchApiKey);
+            settings.FullTextSearchApiKey = Convert.ToBase64String(bytes);
+        }
+
         settings.Encrypted = true;
     }
 
@@ -146,5 +159,17 @@ public class CustomersService : ICustomersService
         }
         var coreConnectionStringBytes = Convert.FromBase64String(settings.CoreDatabaseConnectionString);
         settings.CoreDatabaseConnectionString = await _encryptor.DecryptAsync(coreConnectionStringBytes);
+
+        if (!string.IsNullOrEmpty(settings.FullTextSearchUrl))
+        {
+            var bytes = Convert.FromBase64String(settings.FullTextSearchUrl);
+            settings.FullTextSearchUrl = await _encryptor.DecryptAsync(bytes);
+        }
+
+        if (!string.IsNullOrEmpty(settings.FullTextSearchApiKey))
+        {
+            var bytes = Convert.FromBase64String(settings.FullTextSearchApiKey);
+            settings.FullTextSearchApiKey = await _encryptor.DecryptAsync(bytes);
+        }
     }
 }

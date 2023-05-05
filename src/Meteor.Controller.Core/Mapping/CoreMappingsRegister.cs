@@ -10,8 +10,16 @@ public class CoreMappingsRegister : IRegister
     {
         config.ForType<SetCustomerSettingsDto, CustomerSettings>()
             .IgnoreIf(
-                (dto, settings) => dto.CoreConnectionString == null, 
+                (dto, settings) => dto.CoreConnectionString == null,
                 settings => settings.CoreDatabaseConnectionString
+            )
+            .IgnoreIf(
+                (dto, settings) => dto.FullTextSearchUrl == null,
+                settings => settings.FullTextSearchUrl!
+            )
+            .IgnoreIf(
+                (dto, settings) => dto.FullTextSearchApiKey == null,
+                settings => settings.FullTextSearchApiKey!
             )
             .Map(cs => cs.CoreDatabaseConnectionString, dto => dto.CoreConnectionString);
     }

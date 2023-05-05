@@ -29,6 +29,8 @@ message CustomersPage {
 message CustomerSettings {
   int32 customer_id = 1;
   string core_connection_string = 2;
+  optional string full_text_search_url = 3;
+  optional string full_text_search_api_key = 4;
 }
 
 message GetCustomerByIdRequest {
@@ -48,6 +50,8 @@ message GetCustomersPageRequest {
 message SetCustomerSettingsRequest {
   int32 customer_id = 1;
   optional string core_connection_string = 2;
+  optional string full_text_search_url = 3;
+  optional string full_text_search_api_key = 4;
 }
 
 service CustomersService {
