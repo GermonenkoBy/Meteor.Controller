@@ -14,14 +14,13 @@ public class ApiMappingsRegister : IRegister
             .Map(c => c.Created, c => Timestamp.FromDateTimeOffset(c.Created));
 
         config.ForType<SetCustomerSettingsRequest, SetCustomerSettingsDto>()
-            .IgnoreIf(
-                (settings, dto) => settings.HasCoreConnectionString,
-                dto => dto.CoreConnectionString!
-            )
-            .Map(dto => dto.CoreConnectionString, req => req.CoreConnectionString);
+            .Map(dto => dto.CoreConnectionString, req => req.CoreConnectionString, req => req.HasCoreConnectionString)
+            .Map(dto => dto.FullTextSearchApiKey, req => req.FullTextSearchApiKey, req => req.HasFullTextSearchApiKey)
+            .Map(dto => dto.FullTextSearchUrl, req => req.FullTextSearchUrl, req => req.HasFullTextSearchUrl);
 
         config.ForType<Core.Models.CustomerSettings, CustomerSettings>()
-            .Map(cs => cs.CoreConnectionString, cs => cs.CoreDatabaseConnectionString);
+            .Map(cs => cs.CoreConnectionString, cs => cs.CoreDatabaseConnectionString)
+            .IgnoreNullValues(true);
 
         config.ForType<GetCustomersPageRequest, CustomersFilter>()
             .Map(filter => filter.Paging.Limit, req => req.Limit)
